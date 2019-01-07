@@ -10,7 +10,7 @@ from numpy import linalg as LA
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-sns.set()
+#sns.set()
 
 # entering in data into dataframes
 df = pd.read_csv("mcdata2018.csv")
@@ -21,6 +21,12 @@ miscon = pd.read_csv("misconkey.csv")
 prescore = np.zeros((len(df.index),3))
 post1score = np.zeros((len(df.index),3))
 post2score = np.zeros((len(df.index),3))
+
+
+question1 = np.zeros((3,3))
+question2 = np.zeros((3,3))
+question3 = np.zeros((3,3))
+question4 = np.zeros((3,3))
 
 
 ## splitting dataframe into test and control groups
@@ -56,6 +62,168 @@ prematrixcontnat = np.zeros((3,3))
 post1matrixcontnat = np.zeros((3,3))
 post2matrixcontnat = np.zeros((3,3))
 
+## question scoring
+## control international students
+for j in range (0, len(df1.index)):
+	# pretest
+	if df1.iat[j,1] == key.iat[0,0]:
+		question1[0,0] += 1
+	if df1.iat[j,2] == key.iat[0,1]:
+		question2[0,0] += 1
+	if df1.iat[j,3] == key.iat[0,2]:
+		question3[0,0] += 1
+	if df1.iat[j,4] == key.iat[0,3]:
+		question4[0,0] += 1
+	# posttest 1
+	if df1.iat[j,1+len(key.columns)] == key.iat[0,0]:
+		question1[0,1] += 1
+	if df1.iat[j,2+len(key.columns)] == key.iat[0,1]:
+		question2[0,1] += 1
+	if df1.iat[j,3+len(key.columns)] == key.iat[0,2]:
+		question3[0,1] += 1
+	if df1.iat[j,4+len(key.columns)] == key.iat[0,3]:
+		question4[0,1] += 1
+	# posttest 2
+	if df1.iat[j,1+2*len(key.columns)] == key.iat[0,0]:
+		question1[0,2] += 1
+	if df1.iat[j,2+2*len(key.columns)] == key.iat[0,1]:
+		question2[0,2] += 1
+	if df1.iat[j,3+2*len(key.columns)] == key.iat[0,2]:
+		question3[0,2] += 1
+	if df1.iat[j,4+2*len(key.columns)] == key.iat[0,3]:
+		question4[0,2] += 1
+## control national students
+for j in range (0, len(df2.index)):
+	# pretest
+	if df2.iat[j,1] == key.iat[0,0]:
+		question1[1,0] += 1
+	if df2.iat[j,2] == key.iat[0,1]:
+		question2[1,0] += 1
+	if df2.iat[j,3] == key.iat[0,2]:
+		question3[1,0] += 1
+	if df2.iat[j,4] == key.iat[0,3]:
+		question4[1,0] += 1
+	# posttest 1
+	if df2.iat[j,1+len(key.columns)] == key.iat[0,0]:
+		question1[1,1] += 1
+	if df2.iat[j,2+len(key.columns)] == key.iat[0,1]:
+		question2[1,1] += 1
+	if df2.iat[j,3+len(key.columns)] == key.iat[0,2]:
+		question3[1,1] += 1
+	if df2.iat[j,4+len(key.columns)] == key.iat[0,3]:
+		question4[1,1] += 1
+	# posttest 2
+	if df2.iat[j,1+2*len(key.columns)] == key.iat[0,0]:
+		question1[1,2] += 1
+	if df2.iat[j,2+2*len(key.columns)] == key.iat[0,1]:
+		question2[1,2] += 1
+	if df2.iat[j,3+2*len(key.columns)] == key.iat[0,2]:
+		question3[1,2] += 1
+	if df2.iat[j,4+2*len(key.columns)] == key.iat[0,3]:
+		question4[1,2] += 1
+## test group
+for j in range (0, len(df3.index)):
+	# pretest
+	if df3.iat[j,1] == key.iat[0,0]:
+		question1[2,0] += 1
+	if df3.iat[j,2] == key.iat[0,1]:
+		question2[2,0] += 1
+	if df3.iat[j,3] == key.iat[0,2]:
+		question3[2,0] += 1
+	if df3.iat[j,4] == key.iat[0,3]:
+		question4[2,0] += 1
+	# posttest 1
+	if df3.iat[j,1+len(key.columns)] == key.iat[0,0]:
+		question1[2,1] += 1
+	if df3.iat[j,2+len(key.columns)] == key.iat[0,1]:
+		question2[2,1] += 1
+	if df3.iat[j,3+len(key.columns)] == key.iat[0,2]:
+		question3[2,1] += 1
+	if df3.iat[j,4+len(key.columns)] == key.iat[0,3]:
+		question4[2,1] += 1
+	# posttest 2
+	if df3.iat[j,1+2*len(key.columns)] == key.iat[0,0]:
+		question1[2,2] += 1
+	if df3.iat[j,2+2*len(key.columns)] == key.iat[0,1]:
+		question2[2,2] += 1
+	if df3.iat[j,3+2*len(key.columns)] == key.iat[0,2]:
+		question3[2,2] += 1
+	if df3.iat[j,4+2*len(key.columns)] == key.iat[0,3]:
+		question4[2,2] += 1
+
+# make into percentages, divide by numer of students
+question1[0,:] = question1[0,:]/len(df1.index)*100
+question1[1,:] = question1[1,:]/len(df2.index)*100
+question1[2,:] = question1[2,:]/len(df3.index)*100
+question2[0,:] = question2[0,:]/len(df1.index)*100
+question2[1,:] = question2[1,:]/len(df2.index)*100
+question2[2,:] = question2[2,:]/len(df3.index)*100
+question3[0,:] = question3[0,:]/len(df1.index)*100
+question3[1,:] = question3[1,:]/len(df2.index)*100
+question3[2,:] = question3[2,:]/len(df3.index)*100
+question4[0,:] = question4[0,:]/len(df1.index)*100
+question4[1,:] = question4[1,:]/len(df2.index)*100
+question4[2,:] = question4[2,:]/len(df3.index)*100
+
+## plotting bar graphs of individual question correct responses
+# Question 1
+ind = np.arange(3)
+width = 0.2
+fig, ax = plt.subplots()
+contintval = plt.bar(ind,question1[0,:], width = width, label = 'Control-Inter')
+contnatval = plt.bar(ind+width,question1[1,:], width = width, label = 'Control-Nat')
+testval = plt.bar(ind+2*width,question1[2,:], width = width, label = 'Test')
+plt.legend()
+ax.set_xticks(ind+width)
+ax.set_xticklabels( ('Pretest', 'Posttest 1', 'Posttest 2') )
+plt.title("Question 1 Percent Correct")
+#plt.show()
+fig.savefig('q1.png')
+plt.close(fig)
+# Question 2
+ind = np.arange(3)
+width = 0.2
+fig, ax = plt.subplots()
+contintval = plt.bar(ind,question2[0,:], width = width, label = 'Control-Inter')
+contnatval = plt.bar(ind+width,question2[1,:], width = width, label = 'Control-Nat')
+testval = plt.bar(ind+2*width,question2[2,:], width = width, label = 'Test')
+plt.legend()
+ax.set_xticks(ind+width)
+ax.set_xticklabels( ('Pretest', 'Posttest 1', 'Posttest 2') )
+plt.title("Question 2 Percent Correct")
+#plt.show()
+fig.savefig('q2.png')
+plt.close(fig)
+# Question 3
+ind = np.arange(3)
+width = 0.2
+fig, ax = plt.subplots()
+contintval = plt.bar(ind,question3[0,:], width = width, label = 'Control-Inter')
+contnatval = plt.bar(ind+width,question3[1,:], width = width, label = 'Control-Nat')
+testval = plt.bar(ind+2*width,question3[2,:], width = width, label = 'Test')
+plt.legend()
+ax.set_xticks(ind+width)
+ax.set_xticklabels( ('Pretest', 'Posttest 1', 'Posttest 2') )
+plt.title("Question 3 Percent Correct")
+#plt.show()
+fig.savefig('q3.png')
+plt.close(fig)
+# Question 4
+ind = np.arange(3)
+width = 0.2
+fig, ax = plt.subplots()
+contintval = plt.bar(ind,question4[0,:], width = width, label = 'Control-Inter')
+contnatval = plt.bar(ind+width,question4[1,:], width = width, label = 'Control-Nat')
+testval = plt.bar(ind+2*width,question4[2,:], width = width, label = 'Test')
+plt.legend()
+ax.set_xticks(ind+width)
+ax.set_xticklabels( ('Pretest', 'Posttest 1', 'Posttest 2') )
+plt.title("Question 4 Percent Correct")
+#plt.show()
+fig.savefig('q4.png')
+plt.close(fig)
+
+#['pre','post1','post2']
 
 ## pretest scoring
 for i in range (0,len(df.index)):
@@ -276,7 +444,8 @@ x_contnat = [eigvalprecontnat[0]**2*eigvectprecontnat[1,0]**2, eigvalpost1contna
 
 
 
-
+## plotting model analysis
+fig, ax = plt.subplots()
 plt.scatter(x_test,y_test)
 plt.plot(x_test,y_test, label = 'Test Group')
 plt.scatter(x_contnat,y_contnat)
@@ -290,5 +459,6 @@ plt.title("Model Analysis of Student's Force & Motion Conceptions")
 plt.xlabel('Misconception Probability')
 plt.ylabel('Newtonian Probability')
 plt.legend()
-plt.show()
-
+#plt.show()
+fig.savefig('modeling.png')
+plt.close(fig)
