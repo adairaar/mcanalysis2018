@@ -255,37 +255,40 @@ post2matrixcontint = post2matrixcontint / (len(df1.index) * len(key.columns))
 ## eigenvalues and eigenvectors of all matrices
 eigvalpretest, eigvectpretest = LA.eig(prematrixtest)
 eigvalpost1test, eigvectpost1test = LA.eig(post1matrixtest)
-eigvalpost2test, eigvectpost2test = LA.eig(post1matrixtest)
+eigvalpost2test, eigvectpost2test = LA.eig(post2matrixtest)
 eigvalprecontint, eigvectprecontint = LA.eig(prematrixcontint)
 eigvalpost1contint, eigvectpost1contint = LA.eig(post1matrixcontint)
-eigvalpost2contint, eigvectpost2contint = LA.eig(post1matrixcontint)
-eigvalprecontint, eigvectprecontnat = LA.eig(prematrixcontnat)
+eigvalpost2contint, eigvectpost2contint = LA.eig(post2matrixcontint)
+eigvalprecontnat, eigvectprecontnat = LA.eig(prematrixcontnat)
 eigvalpost1contnat, eigvectpost1contnat = LA.eig(post1matrixcontnat)
-eigvalpost2contnat, eigvectpost2contnat = LA.eig(post1matrixcontnat)
+eigvalpost2contnat, eigvectpost2contnat = LA.eig(post2matrixcontnat)
 
 
-print(eigvalpost2test)
-print(eigvectpost2test)
+## test model data points
+## y-values for Newtonian thiking
+## x-values for naieve thinking
+y_test = [eigvalpretest[0]**2*eigvectpretest[0,0]**2, eigvalpost1test[0]**2*eigvectpost1test[0,0]**2, eigvalpost2test[0]**2*eigvectpost2test[0,0]**2]
+x_test = [eigvalpretest[0]**2*eigvectpretest[1,0]**2, eigvalpost1test[0]**2*eigvectpost1test[1,0]**2, eigvalpost2test[0]**2*eigvectpost2test[1,0]**2]
+y_contint = [eigvalprecontint[0]**2*eigvectprecontint[0,0]**2, eigvalpost1contint[0]**2*eigvectpost1contint[0,0]**2, eigvalpost2contint[0]**2*eigvectpost2contint[0,0]**2]
+x_contint = [eigvalprecontint[0]**2*eigvectprecontint[1,0]**2, eigvalpost1contint[0]**2*eigvectpost1contint[1,0]**2, eigvalpost2contint[0]**2*eigvectpost2contint[1,0]**2]
+y_contnat = [eigvalprecontnat[0]**2*eigvectprecontnat[0,0]**2, eigvalpost1contnat[0]**2*eigvectpost1contnat[0,0]**2, eigvalpost2contnat[0]**2*eigvectpost2contnat[0,0]**2]
+x_contnat = [eigvalprecontnat[0]**2*eigvectprecontnat[1,0]**2, eigvalpost1contnat[0]**2*eigvectpost1contnat[1,0]**2, eigvalpost2contnat[0]**2*eigvectpost2contnat[1,0]**2]
 
-## plotting
-'''
-labels = ('Correct','Misconception','Random')
-y_pos = np.arange(len(labels))
 
-plt.bar(y_pos, presum)
-plt.xticks(y_pos, labels)
-plt.title('Pretest Scores')
+
+
+plt.scatter(x_test,y_test)
+plt.plot(x_test,y_test, label = 'Test Group')
+plt.scatter(x_contnat,y_contnat)
+plt.plot(x_contnat,y_contnat, label = 'Control National')
+plt.scatter(x_contint,y_contint)
+plt.plot(x_contint,y_contint, label = 'Control International')
+plt.plot([0,1],[1,0], color = 'black', lw = 2)
+plt.xlim((0,1))
+plt.ylim((0,1))
+plt.title("Model Analysis of Student's Force & Motion Conceptions")
+plt.xlabel('Misconception Probability')
+plt.ylabel('Newtonian Probability')
+plt.legend()
 plt.show()
-
-plt.bar(y_pos, post1sum)
-plt.xticks(y_pos, labels)
-plt.title('Posttest 1 Scores')
-plt.show()
-
-plt.bar(y_pos, post2sum)
-plt.xticks(y_pos, labels)
-plt.title('Posttest 2 Scores')
-plt.show()
-'''
-
 
